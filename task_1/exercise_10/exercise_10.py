@@ -17,13 +17,37 @@
 
 
 class ComplexNumber:
-    pass
+    def __init__(self, re_num:int=0, im_num:int=0):
+        self.__re_num = re_num
+        self.__im_num = im_num
+    
+    def getRe(self)-> int:
+        return self.__re_num
+    
+    def getIm(self)-> int:
+        return self.__im_num
 
+    def __repr__(self)-> "ComplexNumber":
+        return f"{self.getRe()}+{self.getIm()}i"
 
+    def __add__(self, add_num:"ComplexNumber"):
+        return ComplexNumber(self.getRe()+add_num.getRe(), self.getIm()+add_num.getIm())
+
+    def __mul__(self, add_num:"ComplexNumber"):
+        return ComplexNumber((self.getRe()*add_num.getRe())-(self.getIm()*add_num.getIm()), ((self.getRe()*add_num.getIm())+(self.getIm()*add_num.getRe())))
+    
+    def __abs__(self)->int:
+        return abs(self.getRe()**2 + self.getIm()**2)
+
+    def __eq__(self, compair_num)->bool:
+        return True if (self.getRe() == compair_num.getRe()) and (self.getIm() == compair_num.getIm()) else False
+
+    def __lt__(self, compair_num)->bool:
+        return True if (abs(self) < abs(compair_num)) else False
 """
 № 2 Реализация Менеджера Контекста для Управления Файлами с Логированием Ошибок
 
-Реализовать класс FileManagerWithLogging, который будет использоваться как менеджер контекста для управления файлами и логирования ошибок.
+Реализовать класс FileManagerWithLogging, который будет использоваться как менеджер контекста для управления фTrайлами и логирования ошибок.
 
 Конструктор __init__
 
@@ -45,7 +69,37 @@ log_filename (по умолчанию "error_log.txt"): Имя файла для
 
 
 class FileManagerWithLogging:
-    pass
+    
+    def __init__(self, filename:str, method:str="r", log_file:str = "error_log.txt"):
+        self.filename = filename
+        self.log_file = log_file
+        self.method = method
+        self.file_obj = None
+
+    def __enter__(self):
+        
+        try:
+            self.file_obj = open(self.filename, self.method)
+        except Exception as ex:
+            self.logger(type(ex), ex)
+            raise ex          
+        return self.file_obj
+        
+        
+    def __exit__(self, type_error, value, traceback):
+        if self.file_obj != None:
+            self.file_obj.close()
+        if type_error != None:
+            self.logger(type_error, value)
+        
+    def logger(self, type_error, value):
+        try:
+            self.error_log = open(self.log_file, "a")
+            self.error_log.write(f"Error_type:{type_error} - Text: {value}\n")     
+        finally:
+            self.error_log.close()
+        
+        
 
 
 # Пример использования

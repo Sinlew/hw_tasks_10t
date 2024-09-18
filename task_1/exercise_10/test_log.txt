@@ -1,1 +1,3 @@
-FileExistsError
+Error_type:<class 'FileExistsError'> - Text: [Errno 17] File exists: 'test.txt'
+Error_type:<class 'FileExistsError'> - Text: [Errno 17] File exists: 'test.txt'
+Error_type:<class 'FileExistsError'> - Text: [Errno 17] File exists: 'test.txt'
