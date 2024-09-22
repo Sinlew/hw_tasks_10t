@@ -47,7 +47,7 @@ class ComplexNumber:
         return (self.get_re()**2 + self.get_im()**2)**0.5
 
     def __eq__(self, compair_num: "ComplexNumber")-> bool:
-        return True if (self.get_re() == compair_num.get_re()) and (self.get_im() == compair_num.get_im()) else False
+        return (self.get_re() == compair_num.get_re()) and (self.get_im() == compair_num.get_im())
 
     def __lt__(self, compair_num: "ComplexNumber")-> bool:
         return True if (abs(self) < abs(compair_num)) else False
